@@ -4,6 +4,7 @@
 BLUE='\033[1;34m'
 GREEN='\033[1;32m'
 normal=$(tput sgr0)
+. ~/.nvm/nvm.sh
 
 vercomp () {
     if [[ $1 == $2 ]]
@@ -51,14 +52,14 @@ testvercomp() {
     return "$bool"
 }
 
-export GO_VERSION=$(go version | grep -Po '(?<=version go)[^ ]+')
-export NVM_VERSION=$(nvm --version)
-export NODE_VERSION=$(node --version | grep -Po '(?<=v)[^ ]+')
-export PYTHON_VERSION=$(python3 -c 'import sys; print(sys.version)' | awk 'NR==1{print $1}')
+export GO_VERSION=$(echo $(go version | grep -Po '(?<=version go)[^ ]+'))
+export NVM_VERSION=$(echo $(nvm --version))
+export NODE_VERSION=$(echo $(node --version | grep -Po '(?<=v)[^ ]+'))
+export PYTHON_VERSION=$(echo $(python3 -c 'import sys; print(sys.version)' | awk 'NR==1{print $1}'))
 
 bool=$?
 
-testvercomp "$GO_VERSION" 1.17 \>
+testvercomp $GO_VERSION 1.17 \>
 if [ $bool = 0 ]
 then
     printf "${GREEN}Go version $GO_VERSION is up to date\n${normal}...\n"
@@ -70,7 +71,7 @@ else
     printf "${GREEN}Go version: $(go version)\n${normal}...\n"
 fi
 
-testvercomp "$NVM_VERSION" 0.1.0 \>
+testvercomp $NVM_VERSION 0.1.0 \>
 if [ $bool = 0 ]
 then
     printf "${GREEN}NVM version $NVM_VERSION is up to date\n${normal}...\n"
@@ -82,7 +83,7 @@ else
     printf "${GREEN}NVM version: $(nvm --version)\n${normal}...\n"
 fi
 
-testvercomp "$NODE_VERSION" 12.22 =
+testvercomp $NODE_VERSION 12.22 \>
 if [ $bool = 0 ]
 then
     printf "${GREEN}NODE version $NPM_VERSION is up to date\n${normal}...\n"
@@ -92,7 +93,7 @@ else
     printf "${GREEN}NODE version: $(node --version)\n${normal}...\n"
 fi
 
-testvercomp "$PYTHON_VERSION" 3 \>
+testvercomp $PYTHON_VERSION 3 \>
 if [ $bool = 0 ]
 then
     printf "${GREEN}Python version $PYTHON_VERSION is up to date\n${normal}...\n"
