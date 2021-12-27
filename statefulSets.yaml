@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: chainlink-node
+  labels:
+    app: chainlink-node
+spec:
+  type: NodePort
+  selector:
+    app: chainlink-node
+  ports:
+  - port: 6688
+    targetPort: 6688
+    nodePort: 31239
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: chainlink-deployment
+  labels:
+    app: chainlink-node
+spec:
+  selector:
+    matchLabels:
+      app: chainlink-node
+  serviceName: "chainlink-node"
+  replicas: 2
+  minReadySeconds: 10
+  template:
+    metadata:
+      labels:
+        app: chainlink-node
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: chainlink
+        image: smartcontract/chainlink:1.0.1
+        args: ["local", "n", "-p",  "/chainlink/.password", "-a", "/chainlink/.api"]
+        ports:
+        - containerPort: 6688
+          name: node
