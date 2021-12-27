@@ -52,8 +52,8 @@ testvercomp() {
 }
 
 GO_VERSION=$(go version | grep -Po '(?<=version go)[^ ]+')
-NVM_VERSION=$(source ~/.bashrc | nvm --version)
-NPM_VERSION=$(npm --version)
+NVM_VERSION=$(nvm --version)
+NODE_VERSION=$(node --version | grep -Po '(?<=v)[^ ]+')
 PYTHON_VERSION=$(python -c 'import sys; print(sys.version)' | awk 'NR==1{print $1}')
 
 bool=$?
@@ -82,14 +82,14 @@ else
     printf "${GREEN}NVM version: $(nvm --version)\n${normal}...\n"
 fi
 
-testvercomp "$NPM_VERSION" 12.22 =
+testvercomp "$NODE_VERSION" 12.22 =
 if [ $bool = 0 ]
 then
-    printf "${GREEN}NPM version $NPM_VERSION is up to date\n${normal}...\n"
+    printf "${GREEN}NODE version $NPM_VERSION is up to date\n${normal}...\n"
 else
-    printf "${BLUE}NPM version $NPM_VERSION is outdated. Installing requiered version\n${normal}...\n"
+    printf "${BLUE}NODE version $NPM_VERSION is outdated. Installing requiered version\n${normal}...\n"
     nvm install 12.22 && nvm use 12.22
-    printf "${GREEN}NPM version: $(npm --version)\n${normal}...\n"
+    printf "${GREEN}NODE version: $(node --version)\n${normal}...\n"
 fi
 
 testvercomp "$PYTHON_VERSION" 3 \>
@@ -103,5 +103,5 @@ else
     sudo add-apt-repository ppa:deadsnakes/ppa
     sudo apt update
     sudo apt install python3.8
-    printf "${GREEN}Python version: $(python --version)\n${normal}...\n"
+    printf "${GREEN}Python version: $(python3 --version)\n${normal}...\n"
 fi
