@@ -65,8 +65,8 @@ then
     printf "${GREEN}Go version $GO_VERSION is up to date\n${normal}...\n"
 else
     printf "${BLUE}Go version $GO_VERSION is outdated. Installing requiered version\n${normal}...\n"
-    wget -nc https://go.dev/dl/go1.17.5.linux-amd64.tar.gz
-    sudo rm -rf /usr/local/go && tar -C /usr/local -xzf go1.17.5.linux-amd64.tar.gz
+    wget -qO- https://go.dev/dl/go1.17.5.linux-amd64.tar.
+    sudo su -c ./go-update.sh root
     export PATH=$PATH:/usr/local/go/bin
     printf "${GREEN}Go version: $(go version)\n${normal}...\n"
 fi
