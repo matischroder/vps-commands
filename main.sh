@@ -63,6 +63,7 @@ if [ $bool = 0 ]
 then
     printf "${GREEN}Go version $GO_VERSION is up to date\n${normal}...\n"
 else
+    sudo su
     printf "${BLUE}Go version $GO_VERSION is outdated. Installing requiered version\n${normal}...\n"
     wget https://go.dev/dl/go1.17.5.linux-amd64.tar.gz
     rm -rf /usr/local/go && tar -C /usr/local -xzf go1.17.5.linux-amd64.tar.gz
