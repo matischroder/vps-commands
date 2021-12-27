@@ -51,10 +51,10 @@ testvercomp() {
     return "$bool"
 }
 
-GO_VERSION=$(go version | grep -Po '(?<=version go)[^ ]+')
-NVM_VERSION=$(nvm --version)
-NODE_VERSION=$(node --version | grep -Po '(?<=v)[^ ]+')
-PYTHON_VERSION=$(python -c 'import sys; print(sys.version)' | awk 'NR==1{print $1}')
+export GO_VERSION=$(go version | grep -Po '(?<=version go)[^ ]+')
+export NVM_VERSION=$(nvm --version)
+export NODE_VERSION=$(node --version | grep -Po '(?<=v)[^ ]+')
+export PYTHON_VERSION=$(python -c 'import sys; print(sys.version)' | awk 'NR==1{print $1}')
 
 bool=$?
 
